@@ -8,9 +8,7 @@ import java.util.Arrays;
 import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Random;
-
 import javax.swing.JFrame;
-
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.ChartPanel;
 import org.jfree.chart.JFreeChart;
@@ -25,10 +23,8 @@ public class CaixeiroViajanteFormigas {
 
     private static final double alpha = 3; // peso do feromonio
     private static final double beta = 2; // peso da distancia
-    private static final double reducaoFeromonio = 0.01; // 10% de perda de
-                                                         // feromonio
-    private static final double aumentoFeromonio = 2.0; // 200% de ganho de
-                                                        // feromonio
+    private static final double reducaoFeromonio = 0.01; // 10% de perda de feromonio
+    private static final double aumentoFeromonio = 2.0; // 200% de ganho de feromonio
     private static int[][] distancias;
     private static int[][] formigas;
     private static double[][] feromonios;
@@ -64,7 +60,7 @@ public class CaixeiroViajanteFormigas {
 
     /**
      * Cria randomicamente as distancias entre as cidades
-     * 
+     *
      * Complexidade: O(n^2)
      */
     private static void criaDistancias() {
@@ -85,7 +81,7 @@ public class CaixeiroViajanteFormigas {
 
     /**
      * Cria rotas iniciais aleatórias para cada formiga
-     * 
+     *
      * Complexidade: 2.O(n^2)
      */
     private static void distribuiFormigas() {
@@ -110,7 +106,7 @@ public class CaixeiroViajanteFormigas {
 
     /**
      * Calcula a distância de uma rota
-     * 
+     *
      * Complexidade: O(n)
      */
     private static int distanciaPercorrida(int[] cidades) {
@@ -123,7 +119,7 @@ public class CaixeiroViajanteFormigas {
 
     /**
      * Atualiza a melhor rota avaliando a distância percorrida pelas formigas
-     * 
+     *
      * Complexidade: O(n)
      */
     private static void melhorRota() {
@@ -141,7 +137,7 @@ public class CaixeiroViajanteFormigas {
 
     /**
      * Inicializa a quantidade de feromonios nos trajetos
-     * 
+     *
      * Complexidade: O(n^2)
      */
     private static void inicializaFeromonios() {
@@ -169,7 +165,7 @@ public class CaixeiroViajanteFormigas {
 
     /**
      * Cria uma rota a partir de uma cidade inicial
-     * 
+     *
      * Complexidade: O(n) + complexidade da função proximaCidade
      */
     private static int[] viagemFormiga(int inicio) {
@@ -190,7 +186,7 @@ public class CaixeiroViajanteFormigas {
     /**
      * Define a proxima cidade a ser visitada levando em consideração os
      * feromonios e a distância do trajeto
-     * 
+     *
      * Complexidade: O(n^3) + O(n/2)
      */
     private static int proximaCidade(int origem, boolean[] visitadas) {
@@ -221,7 +217,7 @@ public class CaixeiroViajanteFormigas {
 
     /**
      * Atualiza a tabela de feromonios
-     * 
+     *
      * Complexidade: O(n^2) * O(m) * complexidade da função distanciaPercorrida *
      *               complexidade da função formigaFezCaminho
      */
@@ -249,7 +245,7 @@ public class CaixeiroViajanteFormigas {
 
     /**
      * Verfica se a formiga fez o trajeto da cidade origem a destino
-     * 
+     *
      * Complexidade: O(n)
      */
     private static boolean formigaFezCaminho(int formiga, int origem, int destino) {
@@ -335,8 +331,9 @@ public class CaixeiroViajanteFormigas {
 
     private static void imprimeRotas() {
         for (int i = 0; i < numFormigas; i++) {
-            out.printf("Formiga %2d fez a rota: %s de distancia %d\n", i, Arrays.toString(formigas[i]),
-                    distanciaPercorrida(formigas[i]));
+            out.printf(
+                    "Formiga %2d fez a rota: %s de distancia %d\n",
+                    i, Arrays.toString(formigas[i]), distanciaPercorrida(formigas[i]));
         }
     }
 
@@ -352,8 +349,8 @@ public class CaixeiroViajanteFormigas {
             xy.add(v, resultados.get(v));
         }
         XYSeriesCollection col = new XYSeriesCollection(xy);
-        JFreeChart jfc = ChartFactory.createXYLineChart("ACO", "viagem", "Distância", col, PlotOrientation.VERTICAL,
-                true, true, false);
+        JFreeChart jfc = ChartFactory.createXYLineChart(
+                "ACO", "viagem", "Distância", col, PlotOrientation.VERTICAL, true, true, false);
         ChartPanel cp = new ChartPanel(jfc);
         jf.add(cp);
         jf.pack();
