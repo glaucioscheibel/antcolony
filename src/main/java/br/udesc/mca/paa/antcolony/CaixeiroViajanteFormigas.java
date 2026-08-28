@@ -150,8 +150,6 @@ public class CaixeiroViajanteFormigas {
      */
     private static void atualizaRotasFormigas() {
         for (int i = 0; i < numFormigas; i++) {
-            // cidade atual da formiga
-            // int cidade = formigas[i][numCidades - 1];
             int cidade = random.nextInt(numCidades);
             formigas[i] = viagemFormiga(cidade);
         }
@@ -294,23 +292,23 @@ public class CaixeiroViajanteFormigas {
 
     private static void imprimeTabelaFeromonios() {
         out.printf("Feromônios:%n");
-        out.print("  |");
+        out.print("   |");
         for (int i = 0; i < numCidades; i++) {
             out.printf("%1$6d|", i);
         }
-        out.printf("%n--+");
+        out.printf("%n---+");
         for (int i = 0; i < numCidades; i++) {
             out.print("------+");
         }
         out.printf("%n");
         for (int i = 0; i < numCidades; i++) {
-            out.printf("%1$2d|", i);
+            out.printf("%1$3d|", i);
             for (int j = 0; j < numCidades; j++) {
                 out.printf("%1$1.4f|", feromonios[i][j]);
             }
             out.printf("%n");
         }
-        out.print("--+");
+        out.print("---+");
         for (int i = 0; i < numCidades; i++) {
             out.print("------+");
         }
@@ -320,7 +318,7 @@ public class CaixeiroViajanteFormigas {
     private static void imprimeRotas() {
         for (int i = 0; i < numFormigas; i++) {
             out.printf(
-                    "Formiga %2d fez a rota: %s de distancia %d%n",
+                    "Formiga %3d fez a rota: %s de distancia %d%n",
                     i, Arrays.toString(formigas[i]), distanciaPercorrida(formigas[i]));
         }
     }
