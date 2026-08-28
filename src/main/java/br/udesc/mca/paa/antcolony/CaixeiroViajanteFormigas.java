@@ -30,18 +30,18 @@ public class CaixeiroViajanteFormigas {
     private static double[][] feromonios;
     private static int[] melhorRota;
     private static int melhorDistancia;
-    private static Random random = new Random(System.currentTimeMillis());
+    private static final Random random = new Random(System.currentTimeMillis());
     private static Map<Integer, Integer> resultados;
 
     private CaixeiroViajanteFormigas() {}
 
-    public static void main(String[] args) {
+    static void main() {
         criaDistancias();
         imprimeTabelaDistancias();
         distribuiFormigas();
         inicializaFeromonios();
         for (int i = 0; i < viagens; i++) {
-            out.printf("\nInício da viagem %d\n\n", i);
+            out.printf("%nInício da viagem %d%n%n", i);
             atualizaFeromonios();
             if (i > 0) {
                 atualizaRotasFormigas();
@@ -52,15 +52,14 @@ public class CaixeiroViajanteFormigas {
             imprimeMelhorRota();
             out.println();
             imprimeTabelaFeromonios();
-            out.printf("\nFim da viagem %d\n\n", i);
+            out.printf("%nFim da viagem %d%n%n", i);
             armazenaResultados(i);
         }
         apresentaGrafico();
     }
 
     /**
-     * Cria randomicamente as distancias entre as cidades
-     *
+     * Cria randomicamente as distâncias entre as cidades
      * Complexidade: O(n^2)
      */
     private static void criaDistancias() {
@@ -81,8 +80,7 @@ public class CaixeiroViajanteFormigas {
 
     /**
      * Cria rotas iniciais aleatórias para cada formiga
-     *
-     * Complexidade: 2.O(n^2)
+     * Complexidade: 2*O(n^2)
      */
     private static void distribuiFormigas() {
         formigas = new int[numFormigas][numCidades + 1];
@@ -100,13 +98,12 @@ public class CaixeiroViajanteFormigas {
                     formigas[i][dest] = aux;
                 }
             }
-            formigas[i][numCidades] = formigas[i][0]; // volta para o inicio
+            formigas[i][numCidades] = formigas[i][0]; // volta para o início
         }
     }
 
     /**
      * Calcula a distância de uma rota
-     *
      * Complexidade: O(n)
      */
     private static int distanciaPercorrida(int[] cidades) {
@@ -119,7 +116,6 @@ public class CaixeiroViajanteFormigas {
 
     /**
      * Atualiza a melhor rota avaliando a distância percorrida pelas formigas
-     *
      * Complexidade: O(n)
      */
     private static void melhorRota() {
@@ -137,7 +133,6 @@ public class CaixeiroViajanteFormigas {
 
     /**
      * Inicializa a quantidade de feromonios nos trajetos
-     *
      * Complexidade: O(n^2)
      */
     private static void inicializaFeromonios() {
@@ -151,8 +146,7 @@ public class CaixeiroViajanteFormigas {
 
     /**
      * Inicia uma nova viagem das formigas
-     *
-     * Complexidade: O(n) + complexidade da fun��o viagemFormiga
+     * Complexidade: O(n) + complexidade da função viagemFormiga
      */
     private static void atualizaRotasFormigas() {
         for (int i = 0; i < numFormigas; i++) {
@@ -165,7 +159,6 @@ public class CaixeiroViajanteFormigas {
 
     /**
      * Cria uma rota a partir de uma cidade inicial
-     *
      * Complexidade: O(n) + complexidade da função proximaCidade
      */
     private static int[] viagemFormiga(int inicio) {
@@ -186,7 +179,6 @@ public class CaixeiroViajanteFormigas {
     /**
      * Define a proxima cidade a ser visitada levando em consideração os
      * feromonios e a distância do trajeto
-     *
      * Complexidade: O(n^3) + O(n/2)
      */
     private static int proximaCidade(int origem, boolean[] visitadas) {
@@ -201,14 +193,14 @@ public class CaixeiroViajanteFormigas {
         for (int i = 0; i < numCidades; i++) {
             aux[i] /= soma;
         }
-        double[] acum = new double[numCidades + 1];
+        double[] acumulado = new double[numCidades + 1];
         for (int i = 0; i < numCidades; i++) {
-            acum[i + 1] = acum[i] + aux[i];
+            acumulado[i + 1] = acumulado[i] + aux[i];
         }
         double p = random.nextDouble();
 
-        for (int i = 0; i < acum.length - 1; ++i) {
-            if (p >= acum[i] && p < acum[i + 1]) {
+        for (int i = 0; i < acumulado.length - 1; ++i) {
+            if (p >= acumulado[i] && p < acumulado[i + 1]) {
                 return i;
             }
         }
@@ -216,8 +208,7 @@ public class CaixeiroViajanteFormigas {
     }
 
     /**
-     * Atualiza a tabela de feromonios
-     *
+     * Atualiza a tabela de feromônios
      * Complexidade: O(n^2) * O(m) * complexidade da função distanciaPercorrida *
      *               complexidade da função formigaFezCaminho
      */
@@ -244,8 +235,7 @@ public class CaixeiroViajanteFormigas {
     }
 
     /**
-     * Verfica se a formiga fez o trajeto da cidade origem a destino
-     *
+     * Verifica se a formiga fez o trajeto da cidade origem a destino
      * Complexidade: O(n)
      */
     private static boolean formigaFezCaminho(int formiga, int origem, int destino) {
@@ -259,9 +249,7 @@ public class CaixeiroViajanteFormigas {
                 } else if (i == numCidades - 1 && formigas[formiga][i - 1] == destino) {
                     return true;
                 } else if (i > 0 && i < numCidades - 1) {
-                    if (formigas[formiga][i - 1] == destino || formigas[formiga][i + 1] == destino) {
-                        return true;
-                    }
+                    return formigas[formiga][i - 1] == destino || formigas[formiga][i + 1] == destino;
                 }
                 return false;
             }
@@ -270,79 +258,79 @@ public class CaixeiroViajanteFormigas {
     }
 
     /**
-     * Armazena o melhores caminhos para desenho do grafico
+     * Armazena o melhor caminho para desenho do gráfico
      */
     private static void armazenaResultados(int numViagem) {
         if (resultados == null) {
-            resultados = new LinkedHashMap<Integer, Integer>();
+            resultados = new LinkedHashMap<>();
         }
         resultados.put(numViagem + 1, distanciaPercorrida(melhorRota));
     }
 
     private static void imprimeTabelaDistancias() {
-        out.printf("Distancias:\n");
-        out.printf("  |");
+        out.printf("Distancias:%n");
+        out.print("  |");
         for (int i = 0; i < numCidades; i++) {
             out.printf("%1$2d|", i);
         }
-        out.printf("\n--+");
+        out.printf("%n--+");
         for (int i = 0; i < numCidades; i++) {
-            out.printf("--+", i);
+            out.print("--+");
         }
-        out.printf("\n");
+        out.printf("%n");
         for (int i = 0; i < numCidades; i++) {
             out.printf("%1$2d|", i);
             for (int j = 0; j < numCidades; j++) {
                 out.printf("%1$2d|", distancias[i][j]);
             }
-            out.printf("\n");
+            out.printf("%n");
         }
-        out.printf("--+");
+        out.print("--+");
         for (int i = 0; i < numCidades; i++) {
-            out.printf("--+", i);
+            out.print("--+");
         }
-        out.printf("\n");
+        out.printf("%n");
     }
 
     private static void imprimeTabelaFeromonios() {
-        out.printf("Feromonios:\n");
-        out.printf("  |");
+        out.printf("Feromônios:%n");
+        out.print("  |");
         for (int i = 0; i < numCidades; i++) {
             out.printf("%1$6d|", i);
         }
-        out.printf("\n--+");
+        out.printf("%n--+");
         for (int i = 0; i < numCidades; i++) {
-            out.printf("------+", i);
+            out.print("------+");
         }
-        out.printf("\n");
+        out.printf("%n");
         for (int i = 0; i < numCidades; i++) {
             out.printf("%1$2d|", i);
             for (int j = 0; j < numCidades; j++) {
                 out.printf("%1$1.4f|", feromonios[i][j]);
             }
-            out.printf("\n");
+            out.printf("%n");
         }
-        out.printf("--+");
+        out.print("--+");
         for (int i = 0; i < numCidades; i++) {
-            out.printf("------+", i);
+            out.print("------+");
         }
-        out.printf("\n");
+        out.printf("%n");
     }
 
     private static void imprimeRotas() {
         for (int i = 0; i < numFormigas; i++) {
             out.printf(
-                    "Formiga %2d fez a rota: %s de distancia %d\n",
+                    "Formiga %2d fez a rota: %s de distancia %d%n",
                     i, Arrays.toString(formigas[i]), distanciaPercorrida(formigas[i]));
         }
     }
 
     private static void imprimeMelhorRota() {
-        out.printf("melhor rota: %s de distancia %d\n", Arrays.toString(melhorRota), distanciaPercorrida(melhorRota));
+        out.printf("melhor rota: %s de distancia %d%n", Arrays.toString(melhorRota), distanciaPercorrida(melhorRota));
     }
 
     private static void apresentaGrafico() {
-        JFrame jf = new JFrame("Grafico das Formigas");
+        JFrame jf = new JFrame("Gráfico das Formigas");
         jf.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         XYSeries xy = new XYSeries("Distancia");
         for (Integer v : resultados.keySet()) {
